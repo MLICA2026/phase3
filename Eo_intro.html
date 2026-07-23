@@ -138,6 +138,8 @@ body.present .size-ctrl{display:flex;align-items:center;gap:.3rem;flex-shrink:0;
 .wa-count.ok{background:#E6F6EC;color:#33805A;}
 .wa-count.under{background:#FEF6E6;color:#A9781A;}
 .wa-count.over{background:#FDECEC;color:#C0392B;}
+
+.slide-body.v-center{justify-content:center;}
 </style>
 </head>
 <body>
@@ -245,20 +247,20 @@ const S=[
     <span class="type-pill" style="background:#3AABDC18;color:#3AABDC;border:1.5px solid #3AABDC40">🎯 Objectifs</span>
   </div>
   <div class="slide-body" style="justify-content:center;">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;width:100%;margin:auto;">
-  <div style="background:#E8F4FB;border:2px solid #3AABDC;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:.7rem;">
+<div style="display:flex;flex-direction:column;gap:.7rem;flex:1;min-height:0;width:100%;">
+  <div style="background:#E8F4FB;border:2px solid #3AABDC;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:1rem;flex:1;min-height:0;">
     <span style="font-size:1.5rem;line-height:1;flex-shrink:0;">🎯</span>
     <div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#3AABDC;margin-bottom:.25rem;">Comprendre</div><div style="font-size:.86rem;line-height:1.55;color:#2A2D35;">Les exigences de la Tâche 1 — monologue sans préparation, ~2 min</div></div>
   </div>
-  <div style="background:#E8F4FB;border:2px solid #3AABDC;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:.7rem;">
+  <div style="background:#E8F4FB;border:2px solid #3AABDC;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:1rem;flex:1;min-height:0;">
     <span style="font-size:1.5rem;line-height:1;flex-shrink:0;">📖</span>
     <div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#3AABDC;margin-bottom:.25rem;">Maîtriser</div><div style="font-size:.86rem;line-height:1.55;color:#2A2D35;">Le vocabulaire et les phrases essentielles de la présentation</div></div>
   </div>
-  <div style="background:#E8F4FB;border:2px solid #3AABDC;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:.7rem;">
+  <div style="background:#E8F4FB;border:2px solid #3AABDC;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:1rem;flex:1;min-height:0;">
     <span style="font-size:1.5rem;line-height:1;flex-shrink:0;">🗣️</span>
     <div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#3AABDC;margin-bottom:.25rem;">Pratiquer</div><div style="font-size:.86rem;line-height:1.55;color:#2A2D35;">Des réponses fluides, naturelles et bien organisées</div></div>
   </div>
-  <div style="background:#E8F4FB;border:2px solid #3AABDC;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:.7rem;">
+  <div style="background:#E8F4FB;border:2px solid #3AABDC;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:1rem;flex:1;min-height:0;">
     <span style="font-size:1.5rem;line-height:1;flex-shrink:0;">💬</span>
     <div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#3AABDC;margin-bottom:.25rem;">Interagir</div><div style="font-size:.86rem;line-height:1.55;color:#2A2D35;">Avec l'examinateur après le monologue</div></div>
   </div>
@@ -592,15 +594,26 @@ function inPresent(){return document.body.classList.contains('present');}
 function layout(){
   if(inPresent()){
     const s=Math.min(window.innerWidth/DESIGN_W,2.4)*pz;
-    const h=Math.max(520,(window.innerHeight/s)-6);
+    const w=window.innerWidth/s;                 /* la largeur suit le zoom : jamais de coupure latérale */
+    const h=(window.innerHeight/s)-6;
     sw.style.maxWidth='none';sw.style.flex='none';
-    sw.style.width=DESIGN_W+'px';sw.style.height=h+'px';
+    sw.style.width=w+'px';sw.style.height=h+'px';
     sw.style.transformOrigin='center center';
     sw.style.transform='scale('+s+')';
   }else{
     sw.style.height='';sw.style.maxWidth='';sw.style.flex='';
     applyZoom(parseInt(zr?zr.value:100));
   }
+  setTimeout(fitBody,30);
+}
+
+/* centre verticalement les diapos courtes (évite le grand blanc en bas) */
+function fitBody(){
+  sw.querySelectorAll('.slide-body').forEach(b=>{
+    if(b.querySelector('.write-area')){b.classList.remove('v-center');return;}
+    b.classList.remove('v-center');
+    if(b.scrollHeight<=b.clientHeight+1)b.classList.add('v-center');
+  });
 }
 function fsElement(){return document.fullscreenElement||document.webkitFullscreenElement;}
 function toggleFS(){

@@ -138,6 +138,8 @@ body.present .size-ctrl{display:flex;align-items:center;gap:.3rem;flex-shrink:0;
 .wa-count.ok{background:#E6F6EC;color:#33805A;}
 .wa-count.under{background:#FEF6E6;color:#A9781A;}
 .wa-count.over{background:#FDECEC;color:#C0392B;}
+
+.slide-body.v-center{justify-content:center;}
 </style>
 </head>
 <body>
@@ -249,11 +251,11 @@ const S=[
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">🎯 Objectifs</span>
   </div>
   <div class="slide-body">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
-  <div style="background:#EAF7F0;border:2px solid #5DB88A;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:.7rem;"><span style="font-size:1.5rem;flex-shrink:0;">🎯</span><div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:#5DB88A;margin-bottom:.25rem;">Comprendre</div><div style="font-size:.86rem;line-height:1.55;">Les 3 tâches et leurs exigences en mots et en temps</div></div></div>
-  <div style="background:#EAF7F0;border:2px solid #5DB88A;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:.7rem;"><span style="font-size:1.5rem;flex-shrink:0;">📐</span><div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:#5DB88A;margin-bottom:.25rem;">Structurer</div><div style="font-size:.86rem;line-height:1.55;">Chaque tâche avec une structure claire et efficace</div></div></div>
-  <div style="background:#EAF7F0;border:2px solid #5DB88A;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:.7rem;"><span style="font-size:1.5rem;flex-shrink:0;">🔗</span><div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:#5DB88A;margin-bottom:.25rem;">Connecter</div><div style="font-size:.86rem;line-height:1.55;">Utiliser les connecteurs logiques indispensables</div></div></div>
-  <div style="background:#EAF7F0;border:2px solid #5DB88A;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:.7rem;"><span style="font-size:1.5rem;flex-shrink:0;">✏️</span><div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:#5DB88A;margin-bottom:.25rem;">Pratiquer</div><div style="font-size:.86rem;line-height:1.55;">Rédiger un message collectif en conditions réelles</div></div></div>
+<div style="display:flex;flex-direction:column;gap:.7rem;flex:1;min-height:0;">
+  <div style="background:#EAF7F0;border:2px solid #5DB88A;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:1rem;flex:1;min-height:0;"><span style="font-size:1.5rem;flex-shrink:0;">🎯</span><div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:#5DB88A;margin-bottom:.25rem;">Comprendre</div><div style="font-size:.86rem;line-height:1.55;">Les 3 tâches et leurs exigences en mots et en temps</div></div></div>
+  <div style="background:#EAF7F0;border:2px solid #5DB88A;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:1rem;flex:1;min-height:0;"><span style="font-size:1.5rem;flex-shrink:0;">📐</span><div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:#5DB88A;margin-bottom:.25rem;">Structurer</div><div style="font-size:.86rem;line-height:1.55;">Chaque tâche avec une structure claire et efficace</div></div></div>
+  <div style="background:#EAF7F0;border:2px solid #5DB88A;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:1rem;flex:1;min-height:0;"><span style="font-size:1.5rem;flex-shrink:0;">🔗</span><div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:#5DB88A;margin-bottom:.25rem;">Connecter</div><div style="font-size:.86rem;line-height:1.55;">Utiliser les connecteurs logiques indispensables</div></div></div>
+  <div style="background:#EAF7F0;border:2px solid #5DB88A;border-radius:12px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:1rem;flex:1;min-height:0;"><span style="font-size:1.5rem;flex-shrink:0;">✏️</span><div><div style="font-size:.72rem;font-weight:800;text-transform:uppercase;color:#5DB88A;margin-bottom:.25rem;">Pratiquer</div><div style="font-size:.86rem;line-height:1.55;">Rédiger un message collectif en conditions réelles</div></div></div>
 </div>
   </div>
 </div>`,
@@ -438,15 +440,26 @@ function inPresent(){return document.body.classList.contains('present');}
 function layout(){
   if(inPresent()){
     const s=Math.min(window.innerWidth/DESIGN_W,2.4)*pz;
-    const h=Math.max(520,(window.innerHeight/s)-6);
+    const w=window.innerWidth/s;                 /* la largeur suit le zoom : jamais de coupure latérale */
+    const h=(window.innerHeight/s)-6;
     sw.style.maxWidth='none';sw.style.flex='none';
-    sw.style.width=DESIGN_W+'px';sw.style.height=h+'px';
+    sw.style.width=w+'px';sw.style.height=h+'px';
     sw.style.transformOrigin='center center';
     sw.style.transform='scale('+s+')';
   }else{
     sw.style.height='';sw.style.maxWidth='';sw.style.flex='';
     applyZoom(parseInt(zr?zr.value:100));
   }
+  setTimeout(fitBody,30);
+}
+
+/* centre verticalement les diapos courtes (évite le grand blanc en bas) */
+function fitBody(){
+  sw.querySelectorAll('.slide-body').forEach(b=>{
+    if(b.querySelector('.write-area')){b.classList.remove('v-center');return;}
+    b.classList.remove('v-center');
+    if(b.scrollHeight<=b.clientHeight+1)b.classList.add('v-center');
+  });
 }
 function fsElement(){return document.fullscreenElement||document.webkitFullscreenElement;}
 function toggleFS(){
