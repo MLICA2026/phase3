@@ -93,6 +93,25 @@ li.lvl1::before{left:1.4rem;content:'–';font-size:.85rem;}
 .zoom-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#3AABDC;cursor:pointer;}
 .zoom-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#3AABDC;border:none;cursor:pointer;}
 .app-header{position:relative;}
+
+/* ── PLEIN ÉCRAN / MODE PRÉSENTATION ── */
+.hdr-right{display:flex;align-items:center;gap:.7rem;}
+.fs-btn{display:flex;align-items:center;gap:.35rem;background:var(--white);border:1.5px solid #C0D0DC;color:var(--grey);font-family:'Nunito','Century Gothic',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.35rem .8rem;border-radius:20px;cursor:pointer;transition:all .18s;}
+.fs-btn:hover{border-color:var(--acc);color:var(--acc);background:#F4FAFE;}
+body.present{background:#0A121B;overflow:hidden;height:100vh;}
+body.present .app-header{display:none;}
+body.present .kbd-hint{display:none;}
+body.present .stage{padding:0;justify-content:center;align-items:center;height:100vh;overflow:hidden;}
+body.present .slide-wrap{max-width:none;flex:none;border-radius:0;box-shadow:none;}
+body.present .nav-bar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:auto;max-width:none;background:rgba(10,18,27,.78);backdrop-filter:blur(6px);border:none;border-radius:26px 26px 0 0;padding:.45rem 1.3rem;gap:1rem;z-index:60;opacity:.18;transition:opacity .25s;}
+body.present .nav-bar:hover{opacity:1;}
+body.present .prog-wrap{min-width:180px;}
+body.present .prog-label{color:#FFF;}
+body.present .prog-track{background:rgba(255,255,255,.25);}
+body.present .nav-btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#FFF;}
+body.present .nav-btn.next{background:#3AABDC;border-color:#3AABDC;}
+.fs-exit{display:none;}
+body.present .fs-exit{display:block;position:fixed;top:14px;right:18px;z-index:60;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:.25rem .7rem;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -109,8 +128,9 @@ li.lvl1::before{left:1.4rem;content:'–';font-size:.85rem;}
       <span class="hdr-title">Introduction Expression Orale</span>
     </div>
   </div>
-  <span class="hdr-badge" style="background:#3AABDC">EO · Introduction</span>
+  <div class="hdr-right"><button class="fs-btn" id="fsb" onclick="toggleFS()" title="Plein écran (F)">⛶ <span class="fs-txt">Plein écran</span></button><span class="hdr-badge" style="background:#3AABDC">EO · Introduction</span></div>
 </div>
+<div class="fs-exit">Échap / F pour quitter</div>
 <div class="stage">
   <div class="nav-bar">
     <button class="nav-btn" id="bp" onclick="go(-1)" disabled>←</button>
@@ -515,7 +535,7 @@ function render(idx){
     cur=idx;sw.innerHTML=S[cur];
     sw.querySelectorAll('[contenteditable]').forEach(clearPH);
     sw.classList.remove('fade');
-    setTimeout(()=>applyZoom(parseInt(zr?zr.value:100)),150);
+    setTimeout(layout,150);
     pf.style.width=((cur+1)/N*100)+'%';
     pl.textContent=(cur+1)+' / '+N;
     bp.disabled=cur===0;
@@ -534,6 +554,50 @@ document.addEventListener('touchend',e=>{
   const dx=e.changedTouches[0].clientX-tx;
   if(Math.abs(dx)>50&&!document.activeElement.isContentEditable)go(dx<0?1:-1);
 },{passive:true});
-render(0);
+
+/* ── PLEIN ÉCRAN / MODE PRÉSENTATION ── */
+const DESIGN_W=1120, fsb=document.getElementById('fsb');
+function inPresent(){return document.body.classList.contains('present');}
+function layout(){
+  if(inPresent()){
+    const s=Math.min(window.innerWidth/DESIGN_W,2.4);
+    const h=Math.max(520,(window.innerHeight/s)-6);
+    sw.style.maxWidth='none';sw.style.flex='none';
+    sw.style.width=DESIGN_W+'px';sw.style.height=h+'px';
+    sw.style.transformOrigin='center center';
+    sw.style.transform='scale('+s+')';
+  }else{
+    sw.style.height='';sw.style.maxWidth='';sw.style.flex='';
+    applyZoom(parseInt(zr?zr.value:100));
+  }
+}
+function fsElement(){return document.fullscreenElement||document.webkitFullscreenElement;}
+function toggleFS(){
+  const d=document.documentElement;
+  if(!document.body.classList.contains('present')){
+    const r=d.requestFullscreen||d.webkitRequestFullscreen;
+    if(r){try{const p=r.call(d);if(p&&p.catch)p.catch(()=>{});}catch(e){}}
+    document.body.classList.add('present');
+  }else{
+    const x=document.exitFullscreen||document.webkitExitFullscreen;
+    if(x){try{x.call(document);}catch(e){}}
+    document.body.classList.remove('present');
+  }
+  setTimeout(layout,120);setTimeout(layout,450);
+}
+function onFsChange(){
+  document.body.classList.toggle('present',!!fsElement());
+  if(fsb)fsb.querySelector('.fs-txt').textContent=fsElement()?'Quitter':'Plein écran';
+  setTimeout(layout,120);setTimeout(layout,450);
+}
+document.addEventListener('fullscreenchange',onFsChange);
+document.addEventListener('webkitfullscreenchange',onFsChange);
+window.addEventListener('resize',()=>layout());
+document.addEventListener('keydown',e=>{
+  if((e.key==='f'||e.key==='F')&&!e.target.isContentEditable&&e.target.tagName!=='INPUT'){e.preventDefault();toggleFS();}
+  if(e.key==='Escape'&&document.body.classList.contains('present')&&!fsElement()){document.body.classList.remove('present');layout();}
+});
+
+render(0);layout();
 </script>
 </body></html>

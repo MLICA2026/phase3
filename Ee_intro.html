@@ -93,6 +93,25 @@ li.lvl1::before{left:1.4rem;content:'–';font-size:.85rem;}
 .zoom-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#3AABDC;cursor:pointer;}
 .zoom-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#3AABDC;border:none;cursor:pointer;}
 .app-header{position:relative;}
+
+/* ── PLEIN ÉCRAN / MODE PRÉSENTATION ── */
+.hdr-right{display:flex;align-items:center;gap:.7rem;}
+.fs-btn{display:flex;align-items:center;gap:.35rem;background:var(--white);border:1.5px solid #C0D0DC;color:var(--grey);font-family:'Nunito','Century Gothic',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.35rem .8rem;border-radius:20px;cursor:pointer;transition:all .18s;}
+.fs-btn:hover{border-color:var(--acc);color:var(--acc);background:#F4FAFE;}
+body.present{background:#0A121B;overflow:hidden;height:100vh;}
+body.present .app-header{display:none;}
+body.present .kbd-hint{display:none;}
+body.present .stage{padding:0;justify-content:center;align-items:center;height:100vh;overflow:hidden;}
+body.present .slide-wrap{max-width:none;flex:none;border-radius:0;box-shadow:none;}
+body.present .nav-bar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:auto;max-width:none;background:rgba(10,18,27,.78);backdrop-filter:blur(6px);border:none;border-radius:26px 26px 0 0;padding:.45rem 1.3rem;gap:1rem;z-index:60;opacity:.18;transition:opacity .25s;}
+body.present .nav-bar:hover{opacity:1;}
+body.present .prog-wrap{min-width:180px;}
+body.present .prog-label{color:#FFF;}
+body.present .prog-track{background:rgba(255,255,255,.25);}
+body.present .nav-btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#FFF;}
+body.present .nav-btn.next{background:#3AABDC;border-color:#3AABDC;}
+.fs-exit{display:none;}
+body.present .fs-exit{display:block;position:fixed;top:14px;right:18px;z-index:60;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:.25rem .7rem;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -109,8 +128,9 @@ li.lvl1::before{left:1.4rem;content:'–';font-size:.85rem;}
       <span class="hdr-title">Introduction — Expression Écrite</span>
     </div>
   </div>
-  <span class="hdr-badge" style="background:#5DB88A;">EE · TCF Canada</span>
+  <div class="hdr-right"><button class="fs-btn" id="fsb" onclick="toggleFS()" title="Plein écran (F)">⛶ <span class="fs-txt">Plein écran</span></button><span class="hdr-badge" style="background:#5DB88A;">EE · TCF Canada</span></div>
 </div>
+<div class="fs-exit">Échap / F pour quitter</div>
 <div class="stage">
   <div class="nav-bar">
     <button class="nav-btn" id="bp" onclick="go(-1)" disabled>←</button>
@@ -136,8 +156,8 @@ const S=[
       <div class="cover-plan-item" style="background:#EAF7F0;border-color:#B8D8C8;color:#1C2333;">📋 Les 3 tâches EE</div>
       <div class="cover-plan-item" style="background:#EAF7F0;border-color:#B8D8C8;color:#1C2333;">📊 Critères</div>
       <div class="cover-plan-item" style="background:#EAF7F0;border-color:#B8D8C8;color:#1C2333;">✉️ Tâche 1 : Message</div>
-      <div class="cover-plan-item" style="background:#EAF7F0;border-color:#B8D8C8;color:#1C2333;">📄 Tâche 2 : Synthèse</div>
-      <div class="cover-plan-item" style="background:#EAF7F0;border-color:#B8D8C8;color:#1C2333;">💬 Tâche 3 : Argumentation</div>
+      <div class="cover-plan-item" style="background:#EAF7F0;border-color:#B8D8C8;color:#1C2333;">📰 Tâche 2 : Récit / Article</div>
+      <div class="cover-plan-item" style="background:#EAF7F0;border-color:#B8D8C8;color:#1C2333;">💬 Tâche 3 : Synthèse + Opinion</div>
     </div>
   </div>
   <div class="cover-bar" style="background:linear-gradient(90deg,#5DB88A,#3AABDC)"></div>
@@ -157,9 +177,9 @@ const S=[
 <h3 class="sec-h3" style="color:#5DB88A">Qu'est-ce que l'Expression Écrite au TCF Canada ?</h3>
 <div class="em-item">L'épreuve écrite dure <strong>60 minutes</strong> et comporte <strong>3 tâches</strong>.</div>
 <ul>
-<li><strong style="color:#5DB88A">Tâche 1 — Message collectif</strong><br>Écrire un court message à un groupe pour annoncer ou organiser quelque chose.<br><em>60–80 mots · Temps conseillé : 15 min</em></li>
-<li><strong style="color:#5DB88A">Tâche 2 — Synthèse comparative</strong><br>Comparer deux documents et en dégager les points communs et différences.<br><em>120–150 mots · Temps conseillé : 20 min</em></li>
-<li><strong style="color:#5DB88A">Tâche 3 — Production argumentée</strong><br>Donner votre opinion sur une question de société en développant 2–3 arguments.<br><em>120–150 mots · Temps conseillé : 25 min</em></li>
+<li><strong style="color:#5DB88A">Tâche 1 — Message personnel</strong><br>Écrire un message à un ou plusieurs destinataires précisés dans la consigne, pour <strong>décrire, raconter ou expliquer</strong> (inviter, remercier, organiser, demander).<br><em>60–120 mots · Temps conseillé : 15 min</em></li>
+<li><strong style="color:#5DB88A">Tâche 2 — Article / compte rendu d'expérience</strong><br>Rédiger un article, un courrier ou une note <strong>destiné à plusieurs lecteurs</strong> (blog, journal, site) : raconter une expérience et l'accompagner de commentaires ou d'opinions.<br><em>120–150 mots · Temps conseillé : 20 min</em></li>
+<li><strong style="color:#5DB88A">Tâche 3 — Comparaison de deux points de vue + prise de position</strong><br>À partir de <strong>deux documents courts</strong> (≈ 90 mots chacun) sur un fait de société : comparer les deux avis, puis donner le vôtre.<br><em>120–180 mots (40–60 + 80–120) · Temps conseillé : 25 min</em></li>
 </ul>
   </div>
 </div>`,
@@ -183,7 +203,7 @@ const S=[
 <li><strong style="color:#5DB88A">Correction grammaticale</strong><br>Accords, conjugaisons, ponctuation. Les erreurs graves pénalisent fortement.</li>
 <li><strong style="color:#5DB88A">Registre</strong><br>Adapter le ton — informel pour un message à des amis, formel pour une argumentation.</li>
 </ul>
-<div class="em-item" style="background:#FEF9E7;border-left:4px solid #F5A408;padding:.7rem 1rem;border-radius:0 8px 8px 0;margin-top:.5rem">⚠️ <strong>Erreur fréquente :</strong> Dépasser le nombre de mots. L'examinateur peut ne pas corriger ce qui dépasse la limite.</div>
+<div class="em-item" style="background:#FEF9E7;border-left:4px solid #F5A408;padding:.7rem 1rem;border-radius:0 8px 8px 0;margin-top:.5rem">⚠️ <strong>Attention au nombre de mots :</strong> une tâche sous le minimum exigé (60 / 120 / 120 mots) est notée « A1 non atteint ». Une tâche laissée vide ou hors sujet est également éliminatoire.</div>
   </div>
 </div>`,
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
@@ -233,18 +253,20 @@ const S=[
       <span class="slide-dot" style="background:#5DB88A">6</span>
       <div>
         <div class="slide-lnum">✍️ Introduction – Expression Écrite</div>
-        <div class="slide-title">Tâche 2 — Synthèse comparative</div>
+        <div class="slide-title">Tâche 2 — Article / récit d'expérience</div>
       </div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">📄 Structure</span>
   </div>
   <div class="slide-body">
-<h3 class="sec-h3" style="color:#5DB88A">Structure de la synthèse comparative</h3>
-<div class="num-item"><span class="num-dot" style="background:#5DB88A">1</span><span><strong>Introduction</strong> : Présenter les deux documents en une phrase.<br><em>« Ces deux documents traitent de… »</em></span></div>
-<div class="num-item"><span class="num-dot" style="background:#5DB88A">2</span><span><strong>Points communs</strong> : Ce que les deux documents partagent.<br><em>« D'une part, les deux textes montrent que… »</em></span></div>
-<div class="num-item"><span class="num-dot" style="background:#5DB88A">3</span><span><strong>Différences</strong> : Ce qui les distingue.<br><em>« Cependant, le premier document soutient… tandis que le second… »</em></span></div>
-<div class="num-item"><span class="num-dot" style="background:#5DB88A">4</span><span><strong>Conclusion</strong> : <em>(optionnelle)</em> Reformuler en une phrase.<br><em>« En somme, deux points de vue complémentaires. »</em></span></div>
-<p class="body-p" style="margin-top:.6rem">⚠️ <strong>Ne pas donner votre opinion</strong> dans la Tâche 2 — seulement décrire et comparer objectivement.</p>
+<h3 class="sec-h3" style="color:#5DB88A">Structure de l'article / du compte rendu</h3>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">1</span><span><strong>Titre</strong> : Court et accrocheur, il annonce le sujet.<br><em>« Mon premier hiver à Montréal »</em></span></div>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">2</span><span><strong>Salutation aux lecteurs</strong> : <em>« Chers lecteurs, » / « Bonjour à toutes et à tous, »</em></span></div>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">3</span><span><strong>Introduction</strong> : Annoncer l'expérience racontée.<br><em>« Je souhaite vous raconter… / Le mois dernier, j'ai eu la chance de… »</em></span></div>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">4</span><span><strong>Récit</strong> : Qui, quoi, quand, où, avec qui — au passé composé / imparfait.</span></div>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">5</span><span><strong>Commentaire / opinion</strong> : Réagir selon l'objectif de la consigne (recommander, remercier, revendiquer, mettre en garde…).</span></div>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">6</span><span><strong>Conclusion + signature</strong> : <em>« Je vous invite vivement à… À très bientôt, [prénom] »</em></span></div>
+<p class="body-p" style="margin-top:.6rem">⚠️ La Tâche 2 s'adresse à <strong>plusieurs lecteurs</strong> (blog, journal, site) : registre <strong>standard</strong>, pas familier.</p>
   </div>
 </div>`,
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
@@ -253,18 +275,18 @@ const S=[
       <span class="slide-dot" style="background:#5DB88A">7</span>
       <div>
         <div class="slide-lnum">✍️ Introduction – Expression Écrite</div>
-        <div class="slide-title">Tâche 3 — Argumentation</div>
+        <div class="slide-title">Tâche 3 — Comparaison + prise de position</div>
       </div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">💬 Structure</span>
   </div>
   <div class="slide-body">
-<h3 class="sec-h3" style="color:#5DB88A">Structure de l'argumentation</h3>
-<div class="num-item"><span class="num-dot" style="background:#5DB88A">1</span><span><strong>Introduction</strong> : Reformuler la question + annoncer votre position.<br><em>« À mon avis… / Selon moi… / Je pense que… »</em></span></div>
-<div class="num-item"><span class="num-dot" style="background:#5DB88A">2</span><span><strong>Argument 1</strong> : Présenter + justifier + exemple.<br><em>« Tout d'abord, … En effet, … Par exemple, … »</em></span></div>
-<div class="num-item"><span class="num-dot" style="background:#5DB88A">3</span><span><strong>Argument 2</strong> : Même structure.<br><em>« De plus, … / Ensuite, … »</em></span></div>
-<div class="num-item"><span class="num-dot" style="background:#5DB88A">4</span><span><strong>Nuance</strong> : <em>(optionnelle)</em> « Certes, certains pensent que… mais… / Cependant… »</span></div>
-<div class="num-item"><span class="num-dot" style="background:#5DB88A">5</span><span><strong>Conclusion</strong> : Reformuler votre position.<br><em>« En conclusion, je suis convaincu(e) que… »</em></span></div>
+<h3 class="sec-h3" style="color:#5DB88A">Un texte, deux parties obligatoires</h3>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">1</span><span><strong>Titre</strong> : Il pose le débat.<br><em>« Le télétravail : liberté ou isolement ? »</em></span></div>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">2</span><span><strong>Partie 1 — Les deux points de vue <span style="color:#5DB88A">(40–60 mots)</span></strong> : Reformuler <strong>avec vos propres mots</strong> l'avis du document A puis celui du document B. <strong>Sans donner votre opinion.</strong><br><em>« Le premier document affirme que… tandis que le second souligne que… »</em></span></div>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">3</span><span><strong>Partie 2 — Votre position <span style="color:#5DB88A">(80–120 mots)</span></strong> : Annoncer votre avis, puis 2 arguments justifiés + exemples.<br><em>« Personnellement, je pense que… Tout d'abord… De plus… Par exemple… »</em></span></div>
+<div class="num-item"><span class="num-dot" style="background:#5DB88A">4</span><span><strong>Conclusion</strong> : Une phrase qui reformule votre position.<br><em>« En conclusion, je suis convaincu(e) que… »</em></span></div>
+<p class="body-p" style="margin-top:.6rem">⚠️ Oublier la partie 1 (ou y glisser son opinion) est l'<strong>erreur la plus pénalisée</strong> de la Tâche 3.</p>
   </div>
 </div>`,
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
@@ -321,7 +343,7 @@ const S=[
   </div>
   <div class="slide-body">
 <h3 class="sec-h3" style="color:#5DB88A">Pratique — Tâche 1 : Rédigez un message collectif</h3>
-<p class="body-p"><strong>Sujet :</strong> Vous organisez une sortie au cinéma avec vos amis du cours de français. Écrivez un message collectif pour les inviter (date, heure, lieu, film, comment réserver). <strong>60–80 mots.</strong></p>
+<p class="body-p"><strong>Sujet :</strong> Vous organisez une sortie au cinéma avec vos amis du cours de français. Écrivez un message collectif pour les inviter (date, heure, lieu, film, comment réserver). <strong>60–120 mots.</strong></p>
 <div class="write-area" contenteditable="true" spellcheck="false" style="min-height:160px;">
   <span class="write-placeholder">Objet : ...
 
@@ -359,7 +381,7 @@ function render(idx){
     cur=idx;sw.innerHTML=S[cur];
     sw.querySelectorAll('[contenteditable]').forEach(clearPH);
     sw.classList.remove('fade');
-    setTimeout(()=>applyZoom(parseInt(zr?zr.value:100)),150);
+    setTimeout(layout,150);
     pf.style.width=((cur+1)/N*100)+'%';
     pl.textContent=(cur+1)+' / '+N;
     bp.disabled=cur===0;
@@ -378,6 +400,50 @@ document.addEventListener('touchend',e=>{
   const dx=e.changedTouches[0].clientX-tx;
   if(Math.abs(dx)>50&&!document.activeElement.isContentEditable)go(dx<0?1:-1);
 },{passive:true});
-render(0);
+
+/* ── PLEIN ÉCRAN / MODE PRÉSENTATION ── */
+const DESIGN_W=1120, fsb=document.getElementById('fsb');
+function inPresent(){return document.body.classList.contains('present');}
+function layout(){
+  if(inPresent()){
+    const s=Math.min(window.innerWidth/DESIGN_W,2.4);
+    const h=Math.max(520,(window.innerHeight/s)-6);
+    sw.style.maxWidth='none';sw.style.flex='none';
+    sw.style.width=DESIGN_W+'px';sw.style.height=h+'px';
+    sw.style.transformOrigin='center center';
+    sw.style.transform='scale('+s+')';
+  }else{
+    sw.style.height='';sw.style.maxWidth='';sw.style.flex='';
+    applyZoom(parseInt(zr?zr.value:100));
+  }
+}
+function fsElement(){return document.fullscreenElement||document.webkitFullscreenElement;}
+function toggleFS(){
+  const d=document.documentElement;
+  if(!document.body.classList.contains('present')){
+    const r=d.requestFullscreen||d.webkitRequestFullscreen;
+    if(r){try{const p=r.call(d);if(p&&p.catch)p.catch(()=>{});}catch(e){}}
+    document.body.classList.add('present');
+  }else{
+    const x=document.exitFullscreen||document.webkitExitFullscreen;
+    if(x){try{x.call(document);}catch(e){}}
+    document.body.classList.remove('present');
+  }
+  setTimeout(layout,120);setTimeout(layout,450);
+}
+function onFsChange(){
+  document.body.classList.toggle('present',!!fsElement());
+  if(fsb)fsb.querySelector('.fs-txt').textContent=fsElement()?'Quitter':'Plein écran';
+  setTimeout(layout,120);setTimeout(layout,450);
+}
+document.addEventListener('fullscreenchange',onFsChange);
+document.addEventListener('webkitfullscreenchange',onFsChange);
+window.addEventListener('resize',()=>layout());
+document.addEventListener('keydown',e=>{
+  if((e.key==='f'||e.key==='F')&&!e.target.isContentEditable&&e.target.tagName!=='INPUT'){e.preventDefault();toggleFS();}
+  if(e.key==='Escape'&&document.body.classList.contains('present')&&!fsElement()){document.body.classList.remove('present');layout();}
+});
+
+render(0);layout();
 </script>
 </body></html>
