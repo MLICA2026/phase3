@@ -271,7 +271,7 @@ body.present .size-ctrl{display:flex;align-items:center;gap:.3rem;flex-shrink:0;
 body.present .fs-exit{display:block;position:fixed;top:12px;right:16px;z-index:120;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:.24rem .7rem;cursor:pointer;}
 /* ── DÉBORDEMENT DE TEXTE ── */
 .slide-body>*{flex-shrink:0;}
-.slide-body.v-center{justify-content:center;}
+body.present .slide-body{justify-content:safe center;}
 [contenteditable]{overflow-wrap:break-word;}
 .slide-body::-webkit-scrollbar{width:9px;}
 .slide-body::-webkit-scrollbar-thumb{background:#C8D8E4;border-radius:5px;}
@@ -387,7 +387,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#D5EFE3;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">5</span>
+      <span class="slide-dot" style="background:#5DB88A">4</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">1. Exprimer une opinion personnelle</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">💬 Expressions</span>
@@ -406,7 +406,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#EAF7F0;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">6</span>
+      <span class="slide-dot" style="background:#5DB88A">5</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">2. Introduire un argument</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">💬 Expressions</span>
@@ -425,7 +425,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#D5EFE3;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">7</span>
+      <span class="slide-dot" style="background:#5DB88A">6</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">3. Exprimer une cause ou une conséquence</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">💬 Expressions</span>
@@ -442,7 +442,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#EAF7F0;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">8</span>
+      <span class="slide-dot" style="background:#5DB88A">7</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">4. Exprimer l&apos;opposition ou la concession</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">💬 Expressions</span>
@@ -459,7 +459,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#D5EFE3;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">9</span>
+      <span class="slide-dot" style="background:#5DB88A">8</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">5. Donner un exemple ou illustrer</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">💬 Expressions</span>
@@ -475,7 +475,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#EAF7F0;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">10</span>
+      <span class="slide-dot" style="background:#5DB88A">9</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">6. Conclure une idée ou un texte</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">💬 Expressions</span>
@@ -491,7 +491,7 @@ const S=[
 `<div class="content-slide density-sparse" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#D5EFE3;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">11</span>
+      <span class="slide-dot" style="background:#5DB88A">10</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">Tâche 3 – Vivre en ville ou à la campagne ?</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">🎯 Sujet</span>
@@ -509,7 +509,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#EAF7F0;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">12</span>
+      <span class="slide-dot" style="background:#5DB88A">11</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">Brainstorm – La ville 🏙</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">✏️ Pratique</span>
@@ -530,7 +530,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#D5EFE3;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">13</span>
+      <span class="slide-dot" style="background:#5DB88A">12</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">Brainstorm – La campagne ⛰</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">✏️ Pratique</span>
@@ -551,7 +551,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#EAF7F0;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">14</span>
+      <span class="slide-dot" style="background:#5DB88A">13</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">Introduction du sujet &amp; Opinion</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">🎭 Modèle</span>
@@ -573,7 +573,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#D5EFE3;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">15</span>
+      <span class="slide-dot" style="background:#5DB88A">14</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">Deux raisons &amp; Exemple personnel</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">🎭 Modèle</span>
@@ -601,7 +601,7 @@ const S=[
 `<div class="content-slide density-normal" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#EAF7F0;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">16</span>
+      <span class="slide-dot" style="background:#5DB88A">15</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">Mentionner et réfuter le point de vue opposé</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">🎭 Modèle</span>
@@ -617,7 +617,7 @@ const S=[
 `<div class="content-slide density-sparse" style="--acc:#5DB88A;--tint:#EAF7F0">
   <div class="slide-hdr" style="background:#D5EFE3;border-left:5px solid #5DB88A">
     <div class="slide-hdr-left">
-      <span class="slide-dot" style="background:#5DB88A">17</span>
+      <span class="slide-dot" style="background:#5DB88A">16</span>
       <div><div class="slide-lnum">🏠 Vie quotidienne</div><div class="slide-title">Conclusion</div></div>
     </div>
     <span class="type-pill" style="background:#5DB88A18;color:#5DB88A;border:1.5px solid #5DB88A40">🎭 Modèle</span>
@@ -645,14 +645,14 @@ function render(idx,smooth){
   setTimeout(()=>{
     sw.innerHTML=S[cur];
     sw.querySelectorAll('[contenteditable]').forEach(clearPH);
-    sw.classList.remove('fade');setTimeout(layout,20);setTimeout(layout,200);
+    layout();sw.classList.remove('fade');setTimeout(layout,20);setTimeout(layout,200);
     document.getElementById('pf').style.width=((cur+1)/N*100)+'%';
     document.getElementById('pl').textContent=(cur+1)+' / '+N;
     document.getElementById('bp').disabled=cur===0;
     const bn=document.getElementById('bn');
     if(cur===N-1){bn.className='nav-btn done';bn.textContent='✓';bn.disabled=true;}
     else{bn.className='nav-btn';bn.textContent='→';bn.disabled=false;}
-    if(smooth!==false)window.scrollTo({top:0,behavior:'smooth'});
+    if(smooth!==false)window.scrollTo({top:0,behavior:inPresent()?'auto':'smooth'});
   },130);
 }
 
@@ -687,13 +687,7 @@ const SW=document.getElementById('sw'),SSW=document.getElementById('ssw'),DESIGN
 const CARD=false;
 let pz=1;
 function inPresent(){return document.body.classList.contains('present');}
-function fitBody(){
-  document.querySelectorAll('.slide-body').forEach(b=>{
-    if(b.querySelector('[contenteditable]')){b.classList.remove('v-center');return;}
-    b.classList.remove('v-center');
-    if(b.scrollHeight<=b.clientHeight+1)b.classList.add('v-center');
-  });
-}
+function fitBody(){}
 function restoreNormal(){
   SW.style.width='';SW.style.height='';SW.style.minHeight='';SW.style.maxWidth='';SW.style.flex='';
   SW.style.transform='';SW.style.transformOrigin='top center';SW.style.margin='';
@@ -714,7 +708,7 @@ function layout(){
       if(SSW){SSW.style.maxWidth='none';SSW.style.width='100%';SSW.style.height=SW.getBoundingClientRect().height+'px';}
     }
   }else{restoreNormal();}
-  setTimeout(fitBody,30);
+  fitBody();
 }
 function setSize(d){
   pz=Math.min(2.2,Math.max(.8,Math.round((pz+d*.1)*10)/10));
@@ -769,9 +763,13 @@ ACC.forEach(ch=>{
   b.addEventListener('mousedown',e=>e.preventDefault());
   b.addEventListener('click',()=>{
     if(!curEd)return;
-    const p=curEd.querySelector('.write-placeholder');if(p)p.style.display='none';
+    const p=curEd.querySelector?curEd.querySelector('.write-placeholder'):null;if(p)p.style.display='none';
     curEd.focus();
-    document.execCommand('insertText',false,ch);
+    if(curEd.tagName==='INPUT'||curEd.tagName==='TEXTAREA'){
+      const s=curEd.selectionStart||0,e2=curEd.selectionEnd||0;
+      curEd.value=curEd.value.slice(0,s)+ch+curEd.value.slice(e2);
+      curEd.selectionStart=curEd.selectionEnd=s+ch.length;
+    }else{document.execCommand('insertText',false,ch);}
     updCount();
   });
   accBar.appendChild(b);
@@ -779,6 +777,7 @@ ACC.forEach(ch=>{
 accBar.appendChild(accCount);
 document.body.appendChild(accBar);
 function edText(el){
+  if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')return el.value||'';
   const p=el.querySelector('.write-placeholder');
   let t=el.innerText||'';
   if(p&&p.offsetParent!==null&&p.innerText)t=t.split(p.innerText).join('');
@@ -796,17 +795,10 @@ function updCount(){
     if(st)accCount.classList.add(st);
   }else{accCount.textContent=n+(n>1?' mots':' mot');}
 }
-document.addEventListener('focusin',e=>{
-  const ed=e.target.closest?e.target.closest('[contenteditable]'):null;
-  if(ed){curEd=ed;accBar.classList.add('on');updCount();}
-});
-document.addEventListener('focusout',()=>{
-  setTimeout(()=>{
-    const a=document.activeElement;
-    if(!a||!a.closest||!a.closest('[contenteditable]'))accBar.classList.remove('on');
-  },160);
-});
-document.addEventListener('input',e=>{if(e.target.isContentEditable){curEd=e.target.closest('[contenteditable]');updCount();}});
+function edOf(t){return t&&t.closest?t.closest('[contenteditable],input[type=text],textarea'):null;}
+document.addEventListener('focusin',e=>{const ed=edOf(e.target);if(ed){curEd=ed;accBar.classList.add('on');updCount();}});
+document.addEventListener('focusout',()=>{setTimeout(()=>{if(!edOf(document.activeElement))accBar.classList.remove('on');},160);});
+document.addEventListener('input',e=>{const ed=edOf(e.target);if(ed){curEd=ed;updCount();}});
 
 render(0,false);layout();
 </script>

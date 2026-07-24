@@ -418,7 +418,7 @@ body.present .size-ctrl{display:flex;align-items:center;gap:.3rem;flex-shrink:0;
 body.present .fs-exit{display:block;position:fixed;top:12px;right:16px;z-index:120;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:.24rem .7rem;cursor:pointer;}
 /* ── DÉBORDEMENT DE TEXTE ── */
 .slide-body>*{flex-shrink:0;}
-.slide-body.v-center{justify-content:center;}
+body.present .slide-body{justify-content:safe center;}
 [contenteditable]{overflow-wrap:break-word;}
 .slide-body::-webkit-scrollbar{width:9px;}
 .slide-body::-webkit-scrollbar-thumb{background:#C8D8E4;border-radius:5px;}
@@ -912,7 +912,7 @@ function render(idx){
     cur=idx;
     sw.innerHTML=S[cur];
     sw.querySelectorAll('[contenteditable]').forEach(clearPlaceholder);
-    sw.classList.remove('fade');
+    layout();sw.classList.remove('fade');
     pf.style.width=((cur+1)/N*100)+'%';
     pl.textContent=(cur+1)+' / '+N;
     bp.disabled=cur===0;
@@ -938,13 +938,7 @@ const SW=document.getElementById('sw'),SSW=document.getElementById('ssw'),DESIGN
 const CARD=true;
 let pz=1;
 function inPresent(){return document.body.classList.contains('present');}
-function fitBody(){
-  document.querySelectorAll('.slide-body').forEach(b=>{
-    if(b.querySelector('[contenteditable]')){b.classList.remove('v-center');return;}
-    b.classList.remove('v-center');
-    if(b.scrollHeight<=b.clientHeight+1)b.classList.add('v-center');
-  });
-}
+function fitBody(){}
 function restoreNormal(){
   SW.style.width='';SW.style.height='';SW.style.minHeight='';SW.style.maxWidth='';SW.style.flex='';
   SW.style.transform='';SW.style.transformOrigin='top center';SW.style.margin='';
@@ -965,7 +959,7 @@ function layout(){
       if(SSW){SSW.style.maxWidth='none';SSW.style.width='100%';SSW.style.height=SW.getBoundingClientRect().height+'px';}
     }
   }else{restoreNormal();}
-  setTimeout(fitBody,30);
+  fitBody();
 }
 function setSize(d){
   pz=Math.min(2.2,Math.max(.8,Math.round((pz+d*.1)*10)/10));
@@ -1020,9 +1014,13 @@ ACC.forEach(ch=>{
   b.addEventListener('mousedown',e=>e.preventDefault());
   b.addEventListener('click',()=>{
     if(!curEd)return;
-    const p=curEd.querySelector('.write-placeholder');if(p)p.style.display='none';
+    const p=curEd.querySelector?curEd.querySelector('.write-placeholder'):null;if(p)p.style.display='none';
     curEd.focus();
-    document.execCommand('insertText',false,ch);
+    if(curEd.tagName==='INPUT'||curEd.tagName==='TEXTAREA'){
+      const s=curEd.selectionStart||0,e2=curEd.selectionEnd||0;
+      curEd.value=curEd.value.slice(0,s)+ch+curEd.value.slice(e2);
+      curEd.selectionStart=curEd.selectionEnd=s+ch.length;
+    }else{document.execCommand('insertText',false,ch);}
     updCount();
   });
   accBar.appendChild(b);
@@ -1030,6 +1028,7 @@ ACC.forEach(ch=>{
 accBar.appendChild(accCount);
 document.body.appendChild(accBar);
 function edText(el){
+  if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')return el.value||'';
   const p=el.querySelector('.write-placeholder');
   let t=el.innerText||'';
   if(p&&p.offsetParent!==null&&p.innerText)t=t.split(p.innerText).join('');
@@ -1047,17 +1046,10 @@ function updCount(){
     if(st)accCount.classList.add(st);
   }else{accCount.textContent=n+(n>1?' mots':' mot');}
 }
-document.addEventListener('focusin',e=>{
-  const ed=e.target.closest?e.target.closest('[contenteditable]'):null;
-  if(ed){curEd=ed;accBar.classList.add('on');updCount();}
-});
-document.addEventListener('focusout',()=>{
-  setTimeout(()=>{
-    const a=document.activeElement;
-    if(!a||!a.closest||!a.closest('[contenteditable]'))accBar.classList.remove('on');
-  },160);
-});
-document.addEventListener('input',e=>{if(e.target.isContentEditable){curEd=e.target.closest('[contenteditable]');updCount();}});
+function edOf(t){return t&&t.closest?t.closest('[contenteditable],input[type=text],textarea'):null;}
+document.addEventListener('focusin',e=>{const ed=edOf(e.target);if(ed){curEd=ed;accBar.classList.add('on');updCount();}});
+document.addEventListener('focusout',()=>{setTimeout(()=>{if(!edOf(document.activeElement))accBar.classList.remove('on');},160);});
+document.addEventListener('input',e=>{const ed=edOf(e.target);if(ed){curEd=ed;updCount();}});
 
 render(0);layout();
 </script>
