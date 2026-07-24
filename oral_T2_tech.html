@@ -224,6 +224,53 @@ li::before{content:'›';position:absolute;left:.3rem;color:var(--acc);font-size
   .hdr-zoom-wrap{gap:.3rem;}
   .zoom-slider{width:60px;}
 }
+
+
+/* ── PLEIN ÉCRAN / MODE PRÉSENTATION ── */
+.hdr-right{display:flex;align-items:center;gap:.7rem;}
+.fs-btn{display:flex;align-items:center;gap:.35rem;background:#FFF;border:1.5px solid #C0D0DC;color:#6E7E8A;font-family:'Nunito','Century Gothic',sans-serif;font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.34rem .75rem;border-radius:20px;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.fs-btn:hover{border-color:#3AABDC;color:#3AABDC;background:#F4FAFE;}
+body.present .app-header{display:none;}
+body.present .kbd-hint{display:none;}
+body.present .slide-wrap{max-width:none;border-radius:0;box-shadow:none;}
+body.present .slide-scale-wrap{max-width:none;width:100%;}
+body.present .slide-body{justify-content:safe center;}
+body.present .nav-bar{position:fixed;left:50%;bottom:0;top:auto;transform:translateX(-50%);width:auto;max-width:none;margin:0;background:rgba(10,18,27,.78);backdrop-filter:blur(6px);border:none;border-radius:26px 26px 0 0;padding:.45rem 1.3rem;gap:1rem;z-index:120;opacity:.18;transition:opacity .25s;}
+body.present .nav-bar:hover{opacity:1;}
+body.present .prog-wrap{min-width:170px;}
+body.present .prog-label{color:#FFF;}
+body.present .prog-track{background:rgba(255,255,255,.25);}
+body.present .nav-btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#FFF;}
+.size-ctrl{display:none;}
+body.present .size-ctrl{display:flex;align-items:center;gap:.3rem;flex-shrink:0;}
+.size-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);color:#FFF;font-family:'Nunito','Century Gothic',sans-serif;font-weight:800;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.size-btn:hover{background:rgba(255,255,255,.28);}
+.size-val{font-size:.64rem;font-weight:800;color:#FFF;min-width:38px;text-align:center;}
+.fs-exit{display:none;}
+body.present .fs-exit{display:block;position:fixed;top:12px;right:16px;z-index:120;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:.24rem .7rem;cursor:pointer;}
+/* ── DÉBORDEMENT DE TEXTE ── */
+.slide-body>*{flex-shrink:0;}
+[contenteditable]{overflow-wrap:break-word;}
+.slide-body::-webkit-scrollbar{width:9px;}
+.slide-body::-webkit-scrollbar-thumb{background:#C8D8E4;border-radius:5px;}
+.slide-body::-webkit-scrollbar-track{background:transparent;}
+/* ── CLAVIER D'ACCENTS FLOTTANT + COMPTEUR ── */
+.acc-bar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:200;display:none;align-items:center;justify-content:center;flex-wrap:wrap;gap:.26rem;max-width:min(94vw,880px);background:rgba(255,255,255,.97);border:1.5px solid #C8D8E4;box-shadow:0 8px 30px rgba(0,0,0,.2);border-radius:26px;padding:.45rem .8rem;}
+.acc-bar.on{display:flex;}
+body.present .acc-bar{bottom:78px;}
+.acc-key{font-family:'Nunito','Century Gothic',sans-serif;font-size:.9rem;font-weight:700;color:#2A2D35;background:#FFF;border:1.5px solid #C8D8E4;border-radius:7px;min-width:31px;height:31px;padding:0 .35rem;cursor:pointer;line-height:1;transition:all .12s;}
+.acc-key:hover{border-color:#3AABDC;color:#3AABDC;background:#F6FBFE;}
+.acc-key:active{transform:translateY(1px);}
+.acc-sep{width:1px;height:19px;background:#D8E4EC;margin:0 .18rem;}
+.acc-count{font-size:.7rem;font-weight:800;color:#6E7E8A;background:#EEF4F9;border-radius:20px;padding:.26rem .7rem;white-space:nowrap;margin-left:.35rem;}
+.acc-count.ok{background:#E6F6EC;color:#33805A;}
+.acc-count.under{background:#FEF6E6;color:#A9781A;}
+.acc-count.over{background:#FDECEC;color:#C0392B;}
+body.present{background:#0A121B;}
+body.present .stage{padding:0;}
+body.present .slide-wrap{display:flex;flex-direction:column;}
+body.present .content-slide,body.present .cover-slide{flex:1;display:flex;flex-direction:column;min-height:0;}
+body.present .slide-body{flex:1;}
 </style>
 </head>
 <body>
@@ -236,9 +283,9 @@ li::before{content:'›';position:absolute;left:.3rem;color:var(--acc);font-size
   </div>
   <div class="hdr-zoom-wrap">
     <span class="zoom-label" id="zl">100%</span>
-    <input type="range" id="zr" min="60" max="130" value="100" step="5" class="zoom-slider">
+    <input type="range" id="zr" min="60" max="220" value="100" step="5" class="zoom-slider">
   </div>
-  <span class="hdr-badge">EO · Tâche 2</span>
+  <div class="hdr-right"><button class="fs-btn" id="fsb" onclick="toggleFS()" title="Plein écran (F)">⛶ <span class="fs-txt">Plein écran</span></button><span class="hdr-badge">EO · Tâche 2</span></div>
 </div>
 
 <div class="nav-bar">
@@ -248,8 +295,10 @@ li::before{content:'›';position:absolute;left:.3rem;color:var(--acc);font-size
     <div class="prog-label" id="pl">1 / 14</div>
   </div>
   <button class="nav-btn" id="bn" onclick="go(1)">→</button>
+  <div class="size-ctrl"><button class="size-btn" onclick="setSize(-1)" title="Texte plus petit">A−</button><span class="size-val" id="szv">100%</span><button class="size-btn" onclick="setSize(1)" title="Texte plus grand">A+</button></div>
 </div>
 
+<div class="fs-exit" onclick="toggleFS()">Échap / F pour quitter</div>
 <div class="stage">
   <div class="slide-scale-wrap" id="ssw">
     <div class="slide-wrap" id="sw" style="transform-origin:top center;transition:transform .2s;"></div>
@@ -511,15 +560,15 @@ function render(idx,smooth){
   setTimeout(()=>{
     sw.innerHTML=S[cur];
     sw.querySelectorAll('[contenteditable]').forEach(clearPH);
-    sw.classList.remove('fade');
+    layout();sw.classList.remove('fade');
     document.getElementById('pf').style.width=((cur+1)/N*100)+'%';
     document.getElementById('pl').textContent=(cur+1)+' / '+N;
     document.getElementById('bp').disabled=cur===0;
     const bn=document.getElementById('bn');
     if(cur===N-1){bn.className='nav-btn done';bn.textContent='✓';bn.disabled=true;}
     else{bn.className='nav-btn';bn.textContent='→';bn.disabled=false;}
-    applyZoom(parseInt(document.getElementById('zr').value));
-    if(smooth!==false)window.scrollTo({top:0,behavior:'smooth'});
+    layout();
+    if(smooth!==false)window.scrollTo({top:0,behavior:inPresent()?'auto':'smooth'});
   },130);
 }
 
@@ -548,6 +597,126 @@ function applyZoom(v){
 }
 zr.addEventListener('input',()=>applyZoom(parseInt(zr.value)));
 
-render(0,false);
+/* ══ MODE PRÉSENTATION + CLAVIER FRANÇAIS + COMPTEUR DE MOTS ══ */
+const SW=document.getElementById('sw'),SSW=document.getElementById('ssw'),DESIGN_W=1120;
+const CARD=false;
+let pz=1;
+function inPresent(){return document.body.classList.contains('present');}
+function restoreNormal(){
+  SW.style.width='';SW.style.height='';SW.style.minHeight='';SW.style.maxWidth='';SW.style.flex='';
+  SW.style.transform='';SW.style.transformOrigin='top center';SW.style.margin='';
+  if(SSW){SSW.style.height='';SSW.style.width='';SSW.style.maxWidth='';SSW.style.overflow='';}
+  if(typeof zr!=='undefined'&&zr)zr.dispatchEvent(new Event('input'));
+}
+function layout(){
+  if(!inPresent()){restoreNormal();return;}
+  const s=Math.min(window.innerWidth/DESIGN_W,2.4)*pz;
+  const w=window.innerWidth/s;
+  SW.style.maxWidth='none';SW.style.transformOrigin='top center';SW.style.margin='0 auto';
+  SW.style.width=w+'px';SW.style.transform='scale('+s+')';
+  if(CARD){
+    SW.style.flex='none';SW.style.height=((window.innerHeight/s)-4)+'px';
+    if(SSW){SSW.style.maxWidth='none';SSW.style.width='100%';SSW.style.height='100vh';SSW.style.overflow='hidden';}
+  }else{
+    SW.style.minHeight=((window.innerHeight/s)-4)+'px';
+    if(SSW){SSW.style.maxWidth='none';SSW.style.width='100%';SSW.style.height=SW.getBoundingClientRect().height+'px';}
+  }
+}
+function setSize(d){
+  pz=Math.min(2.2,Math.max(.8,Math.round((pz+d*.1)*10)/10));
+  const v=document.getElementById('szv');if(v)v.textContent=Math.round(pz*100)+'%';
+  layout();
+}
+function fsElement(){return document.fullscreenElement||document.webkitFullscreenElement;}
+function toggleFS(){
+  const d=document.documentElement;
+  if(!document.body.classList.contains('present')){
+    const r=d.requestFullscreen||d.webkitRequestFullscreen;
+    if(r){try{const p=r.call(d);if(p&&p.catch)p.catch(()=>{});}catch(e){}}
+    document.body.classList.add('present');
+  }else{
+    const x=document.exitFullscreen||document.webkitExitFullscreen;
+    if(x){try{x.call(document);}catch(e){}}
+    document.body.classList.remove('present');
+  }
+  setTimeout(layout,120);setTimeout(layout,450);
+}
+function onFsChange(){
+  document.body.classList.toggle('present',!!fsElement());
+  const b=document.getElementById('fsb');
+  if(b)b.querySelector('.fs-txt').textContent=fsElement()?'Quitter':'Plein écran';
+  setTimeout(layout,120);setTimeout(layout,450);
+}
+document.addEventListener('fullscreenchange',onFsChange);
+document.addEventListener('webkitfullscreenchange',onFsChange);
+window.addEventListener('resize',()=>layout());
+document.addEventListener('keydown',e=>{
+  if(e.target.isContentEditable||e.target.tagName==='INPUT')return;
+  if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFS();}
+  if(e.key==='Escape'&&document.body.classList.contains('present')&&!fsElement()){document.body.classList.remove('present');layout();}
+  if(inPresent()){
+    if(e.key==='+'||e.key==='='){e.preventDefault();setSize(1);}
+    if(e.key==='-'||e.key==='_'){e.preventDefault();setSize(-1);}
+    if(e.key==='0'){e.preventDefault();pz=1;const v=document.getElementById('szv');if(v)v.textContent='100%';layout();}
+  }else if(typeof zr!=='undefined'&&zr){
+    if(e.key==='+'||e.key==='='){e.preventDefault();zr.value=Math.min(+zr.max,+zr.value+10);zr.dispatchEvent(new Event('input'));}
+    if(e.key==='-'||e.key==='_'){e.preventDefault();zr.value=Math.max(+zr.min,+zr.value-10);zr.dispatchEvent(new Event('input'));}
+    if(e.key==='0'){e.preventDefault();zr.value=100;zr.dispatchEvent(new Event('input'));}
+  }
+});
+/* ── clavier d'accents flottant : toutes les zones de saisie ── */
+const ACC=['é','è','ê','ë','à','â','î','ï','ô','û','ù','ç','œ','æ','|','É','È','À','Ç','|','« ',' »','’'];
+const accBar=document.createElement('div');accBar.className='acc-bar';
+const accCount=document.createElement('span');accCount.className='acc-count';
+let curEd=null;
+ACC.forEach(ch=>{
+  if(ch==='|'){const s=document.createElement('span');s.className='acc-sep';accBar.appendChild(s);return;}
+  const b=document.createElement('button');b.type='button';b.className='acc-key';b.textContent=ch.trim()||ch;
+  b.addEventListener('mousedown',e=>e.preventDefault());
+  b.addEventListener('click',()=>{
+    if(!curEd)return;
+    const p=curEd.querySelector?curEd.querySelector('.write-placeholder'):null;if(p)p.style.display='none';
+    curEd.focus();
+    if(curEd.tagName==='INPUT'||curEd.tagName==='TEXTAREA'){
+      const s=curEd.selectionStart||0,e2=curEd.selectionEnd||0;
+      curEd.value=curEd.value.slice(0,s)+ch+curEd.value.slice(e2);
+      curEd.selectionStart=curEd.selectionEnd=s+ch.length;
+    }else{document.execCommand('insertText',false,ch);}
+    updCount();
+  });
+  accBar.appendChild(b);
+});
+accBar.appendChild(accCount);
+document.body.appendChild(accBar);
+function edText(el){
+  if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')return el.value||'';
+  const p=el.querySelector('.write-placeholder');
+  let t=el.innerText||'';
+  if(p&&p.offsetParent!==null&&p.innerText)t=t.split(p.innerText).join('');
+  return t;
+}
+function updCount(){
+  if(!curEd)return;
+  const m=edText(curEd).match(/[A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:['’-][A-Za-zÀ-ÖØ-öø-ÿ0-9]+)*/g);
+  const n=m?m.length:0;
+  const mn=parseInt(curEd.dataset.min||0),mx=parseInt(curEd.dataset.max||0);
+  accCount.className='acc-count';
+  if(mn&&mx){
+    accCount.textContent=n+' / '+mn+'–'+mx+' mots';
+    const st=(n===0?'':(n<mn?'under':(n>mx?'over':'ok')));
+    if(st)accCount.classList.add(st);
+  }else{accCount.textContent=n+(n>1?' mots':' mot');}
+}
+function edOf(t){return t&&t.closest?t.closest('[contenteditable],input[type=text],textarea'):null;}
+document.addEventListener('focusin',e=>{const ed=edOf(e.target);if(ed){curEd=ed;accBar.classList.add('on');updCount();}});
+/* en plein écran : empêche le focus d'une zone de saisie de faire remonter la diapo */
+document.addEventListener('focusin',()=>{
+  if(!inPresent())return;
+  setTimeout(()=>{document.querySelectorAll('.stage,.slide-scale-wrap').forEach(el=>{el.scrollTop=0;el.scrollLeft=0;});},0);
+});
+document.addEventListener('focusout',()=>{setTimeout(()=>{if(!edOf(document.activeElement))accBar.classList.remove('on');},160);});
+document.addEventListener('input',e=>{const ed=edOf(e.target);if(ed){curEd=ed;updCount();}});
+
+render(0,false);layout();
 </script>
 </body></html>
