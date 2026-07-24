@@ -177,7 +177,7 @@ li::before{content:'›';position:absolute;left:.3rem;color:var(--acc);font-size
 .subject-num{display:inline-block;background:var(--acc);color:white;font-size:.7rem;font-weight:800;padding:.18rem .6rem;border-radius:20px;margin-bottom:.7rem;}
 .scenario-box{border:2px solid var(--acc);border-radius:12px;padding:1.2rem 1.6rem;font-size:.95rem;font-weight:600;line-height:1.9;background:var(--tint);margin-bottom:.9rem;}
 .prep-row{display:flex;gap:.8rem;align-items:flex-start;margin-bottom:.8rem;}
-.prep-hint{flex:1;font-size:.78rem;color:var(--grey);font-style:italic;padding:.5rem .8rem;background:#F7F9FB;border-radius:8px;border-left:3px solid #C8D8E4;line-height:1.6;}
+.prep-hint{font-size:.78rem;color:var(--grey);font-style:italic;padding:.5rem .8rem;background:#F7F9FB;border-radius:8px;border-left:3px solid #C8D8E4;line-height:1.6;}
 .timer-badge{background:var(--acc);color:white;font-size:.72rem;font-weight:800;padding:.35rem .8rem;border-radius:20px;white-space:nowrap;flex-shrink:0;}
 .notes-area{flex:1;min-height:90px;background:#FAFCFF;border:2px dashed #C8D8E4;border-radius:10px;padding:.9rem 1.1rem;font-family:'Nunito',sans-serif;font-size:.88rem;line-height:1.8;outline:none;cursor:text;color:var(--dark);}
 
@@ -271,6 +271,14 @@ body.present .stage{padding:0;}
 body.present .slide-wrap{display:flex;flex-direction:column;}
 body.present .content-slide,body.present .cover-slide{flex:1;display:flex;flex-direction:column;min-height:0;}
 body.present .slide-body{flex:1;}
+
+/* ── CORRECTIF MISE EN PAGE : la consigne ne doit plus s'étirer ── */
+.prep-hint{flex:0 0 auto;}
+body.present .slide-body{padding-bottom:4.2rem;}
+body.present .idea-grid{flex:1 1 auto;min-height:0;align-items:stretch;}
+body.present .idea-col{min-height:0;}
+body.present .idea-area{flex:1 1 auto;min-height:120px !important;}
+body.present .notes-area{min-height:0;}
 </style>
 </head>
 <body>
