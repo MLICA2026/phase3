@@ -708,6 +708,11 @@ function updCount(){
 }
 function edOf(t){return t&&t.closest?t.closest('[contenteditable],input[type=text],textarea'):null;}
 document.addEventListener('focusin',e=>{const ed=edOf(e.target);if(ed){curEd=ed;accBar.classList.add('on');updCount();}});
+/* en plein écran : empêche le focus d'une zone de saisie de faire remonter la diapo */
+document.addEventListener('focusin',()=>{
+  if(!inPresent())return;
+  setTimeout(()=>{document.querySelectorAll('.stage,.slide-scale-wrap').forEach(el=>{el.scrollTop=0;el.scrollLeft=0;});},0);
+});
 document.addEventListener('focusout',()=>{setTimeout(()=>{if(!edOf(document.activeElement))accBar.classList.remove('on');},160);});
 document.addEventListener('input',e=>{const ed=edOf(e.target);if(ed){curEd=ed;updCount();}});
 
